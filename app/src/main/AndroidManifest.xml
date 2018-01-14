@@ -21,8 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity">
-        </activity>
+        <activity android:name=".activity.MainActivity"></activity>
+
+        <service
+            android:name=".service.UpdateAzureFileStatusService"
+            android:enabled="true"
+            android:exported="true"
+            android:process="system"></service>
     </application>
 
 </manifest>

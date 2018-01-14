@@ -5,4 +5,6 @@ package win.nicecode.azurefile.utils;
  */
 
 public class AppConfig {
+    public static final String BASE_WEB_API = "https://coredemo.nicecode.win/api/";
+    public static final int REFRESH_INTERVAL = 30;
 }

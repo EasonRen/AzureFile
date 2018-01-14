@@ -1,37 +1,36 @@
 package win.nicecode.azurefile.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import win.nicecode.azurefile.R;
+import win.nicecode.azurefile.bean.AzureFileStatus;
+import win.nicecode.azurefile.network.ApiServiceInterface;
+import win.nicecode.azurefile.network.RetrofitClient;
+import win.nicecode.azurefile.service.UpdateAzureFileStatusService;
 
 public class MainActivity extends AppCompatActivity {
-    private int clickCount = 0;
-    OkHttpClient client = new OkHttpClient();
+    @BindView(R.id.txtBinQueueCount)
+    TextView binQueueCountView;
+    @BindView(R.id.txtAlgorithmQueueCount)
+    TextView algorithmQueueView;
+    @BindView(R.id.txtDBPostQueueCount)
+    TextView dbpostQueueView;
 
-    @BindView(R.id.textView)
-    TextView textView;
-    @BindView(R.id.imageView)
-    ImageView imageView;
-    //@BindView(R.id.button) Button button;
+    public static final String ACTION_UPDATE_AZURE="action.updateAzure";
+    public UpdateAzureFileStatusBroadcastReceiver updateAzureFileStatusBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,42 +38,55 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
-        ImageLoader.getInstance().init(config);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_UPDATE_AZURE);
+        updateAzureFileStatusBroadcastReceiver = new UpdateAzureFileStatusBroadcastReceiver();
+        registerReceiver(updateAzureFileStatusBroadcastReceiver, filter);
 
-        try {
-            run("https://coredemo.nicecode.win/api/azurefilestatus");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        bindData();
+        initServie();
     }
 
-    void run(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
+    @OnClick(R.id.button)
+    public void helloClick() {
+        bindData();
+    }
 
-        client.newCall(request).enqueue(new Callback() {
+    private void bindData() {
+
+        RetrofitClient.getInstance()
+                .createApi(ApiServiceInterface.class)
+                .getAzureFileStatus()
+                .enqueue(new Callback<AzureFileStatus>() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("ok", "mmsd");
+            public void onResponse(Call<AzureFileStatus> c, Response<AzureFileStatus> response) {
+                AzureFileStatus result = response.body();
+                binQueueCountView.setText(result.getQueueMessageCount().getBin() + "");
+                algorithmQueueView.setText(result.getQueueMessageCount().getAlgorithm() + "");
+                dbpostQueueView.setText(result.getQueueMessageCount().getDBPost() + "");
+                Log.i("DS", "LAST CHECK DATE:" + result.getLastCheckDate());
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    // String str = response.body().string();
-                    Log.i("ok", response.body().string());
-                }
+            public void onFailure(Call<AzureFileStatus> c, Throwable t) {
+                t.printStackTrace();
             }
         });
     }
 
-    @OnClick(R.id.button)
-    void helloClick() {
-        clickCount++;
-        textView.setText("任义" + clickCount);
-        ImageLoader.getInstance().displayImage("http://pic1.win4000.com/pic/e/c0/2b9d350143.jpg", imageView);
+    private void initServie(){
+        Intent i = new Intent(this,  UpdateAzureFileStatusService.class);
+        i.setAction("win.nicecode.azurefile.service.UpdateAzureFileStatusService");
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startService(i);
+    }
+
+    private class UpdateAzureFileStatusBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            binQueueCountView.setText(String.valueOf(intent.getExtras().getInt("bin")));
+            algorithmQueueView.setText(String.valueOf(intent.getExtras().getInt("algorithm")));
+            dbpostQueueView.setText(String.valueOf(intent.getExtras().getInt("dbpost")));
+        }
     }
 }
