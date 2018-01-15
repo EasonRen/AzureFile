@@ -60,7 +60,7 @@ public class UpdateAzureFileStatusService extends Service {
                 });
             }
         };
-        timer.schedule(timerTask, 1000, AppConfig.REFRESH_INTERVAL * 1000);
+        timer.schedule(timerTask, AppConfig.REFRESH_INTERVAL * 1000, AppConfig.REFRESH_INTERVAL * 1000);
     }
 
     @Nullable
