@@ -1,14 +1,14 @@
 package win.nicecode.azurefile.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by eason on 2018/1/5.
  */
 
-public class QueueMessageCount {
+public class QueueMessageCount implements Serializable {
     private int Bin;
-
     private int Algorithm;
-
     private int DBPost;
 
     public void setBin(int Bin){

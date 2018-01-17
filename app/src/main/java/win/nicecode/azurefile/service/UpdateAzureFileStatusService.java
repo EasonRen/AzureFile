@@ -47,9 +47,10 @@ public class UpdateAzureFileStatusService extends Service {
                     @Override
                     public void onResponse(Call<AzureFileStatus> c, Response<AzureFileStatus> response) {
                         AzureFileStatus result = response.body();
-                        intent.putExtra("bin", result.getQueueMessageCount().getBin());
-                        intent.putExtra("algorithm", result.getQueueMessageCount().getAlgorithm());
-                        intent.putExtra("dbpost", result.getQueueMessageCount().getDBPost());
+//                        intent.putExtra("bin", result.getQueueMessageCount().getBin());
+//                        intent.putExtra("algorithm", result.getQueueMessageCount().getAlgorithm());
+//                        intent.putExtra("dbpost", result.getQueueMessageCount().getDBPost());
+                        intent.putExtra("filestatus", result);
                         sendBroadcast(intent);
                     }
 

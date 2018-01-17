@@ -4,9 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -29,7 +28,28 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.txtDBPostQueueCount)
     TextView dbpostQueueView;
 
-    public static final String ACTION_UPDATE_AZURE="action.updateAzure";
+    @BindView(R.id.carrierInCount)
+    TextView carrierInCountView;
+    @BindView(R.id.carrierOutCount)
+    TextView carrierOutCountView;
+    @BindView(R.id.carrierErrorCount)
+    TextView carrierErrorCountView;
+
+    @BindView(R.id.dispatcherInCount)
+    TextView dispatcherInCountView;
+    @BindView(R.id.dispatcherOutCount)
+    TextView dispatcherOutCountView;
+    @BindView(R.id.dispatcherErrorCount)
+    TextView dispatcherErrorCountView;
+
+    @BindView(R.id.dbpostInCount)
+    TextView dbpostInCountView;
+    @BindView(R.id.dbpostOutCount)
+    TextView dbpostOutCountView;
+    @BindView(R.id.dbpostErrorCount)
+    TextView dbpostErrorCountView;
+
+    public static final String ACTION_UPDATE_AZURE = "action.updateAzure";
     public UpdateAzureFileStatusBroadcastReceiver updateAzureFileStatusBroadcastReceiver;
 
     @Override
@@ -58,24 +78,21 @@ public class MainActivity extends AppCompatActivity {
                 .createApi(ApiServiceInterface.class)
                 .getAzureFileStatus()
                 .enqueue(new Callback<AzureFileStatus>() {
-            @Override
-            public void onResponse(Call<AzureFileStatus> c, Response<AzureFileStatus> response) {
-                AzureFileStatus result = response.body();
-                binQueueCountView.setText(result.getQueueMessageCount().getBin() + "");
-                algorithmQueueView.setText(result.getQueueMessageCount().getAlgorithm() + "");
-                dbpostQueueView.setText(result.getQueueMessageCount().getDBPost() + "");
-                Log.i("DS", "LAST CHECK DATE:" + result.getLastCheckDate());
-            }
+                    @Override
+                    public void onResponse(Call<AzureFileStatus> c, Response<AzureFileStatus> response) {
+                        AzureFileStatus result = response.body();
+                        bindViewData(result);
+                    }
 
-            @Override
-            public void onFailure(Call<AzureFileStatus> c, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<AzureFileStatus> c, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
     }
 
-    private void initServie(){
-        Intent i = new Intent(this,  UpdateAzureFileStatusService.class);
+    private void initServie() {
+        Intent i = new Intent(this, UpdateAzureFileStatusService.class);
         i.setAction("win.nicecode.azurefile.service.UpdateAzureFileStatusService");
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startService(i);
@@ -84,9 +101,26 @@ public class MainActivity extends AppCompatActivity {
     private class UpdateAzureFileStatusBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            binQueueCountView.setText(String.valueOf(intent.getExtras().getInt("bin")));
-            algorithmQueueView.setText(String.valueOf(intent.getExtras().getInt("algorithm")));
-            dbpostQueueView.setText(String.valueOf(intent.getExtras().getInt("dbpost")));
+            AzureFileStatus azureFileStatus = (AzureFileStatus) intent.getSerializableExtra("filestatus");
+            bindViewData(azureFileStatus);
         }
+    }
+
+    private void bindViewData(AzureFileStatus azureFileStatus) {
+        binQueueCountView.setText(String.valueOf(azureFileStatus.getQueueMessageCount().getBin()));
+        algorithmQueueView.setText(String.valueOf(azureFileStatus.getQueueMessageCount().getAlgorithm()));
+        dbpostQueueView.setText(String.valueOf(azureFileStatus.getQueueMessageCount().getDBPost()));
+
+        carrierInCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getCarrie().getIn()));
+        carrierOutCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getCarrie().getOut()));
+        carrierErrorCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getCarrie().getError()));
+
+        dispatcherInCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDispatcher().getIn()));
+        dispatcherOutCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDispatcher().getOut()));
+        dispatcherErrorCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDispatcher().getError()));
+
+        dbpostInCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDBPost().getIn()));
+        dbpostOutCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDBPost().getOut()));
+        dbpostErrorCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDBPost().getError()));
     }
 }

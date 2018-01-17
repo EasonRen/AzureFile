@@ -1,37 +1,37 @@
 package win.nicecode.azurefile.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by eason on 2018/1/5.
  */
 
-public class AzureFileCount {
-    private int In;
+public class AzureFileCount implements Serializable {
+    private FileCount Carrie;
+    private FileCount Dispatcher;
+    private FileCount DBPost;
 
-    private int Out;
-
-    private int Error;
-
-    public void setIn(int In){
-        this.In = In;
+    public FileCount getCarrie() {
+        return Carrie;
     }
 
-    public int getIn(){
-        return this.In;
+    public void setCarrie(FileCount carrie) {
+        Carrie = carrie;
     }
 
-    public void setOut(int Out){
-        this.Out = Out;
+    public FileCount getDispatcher() {
+        return Dispatcher;
     }
 
-    public int getOut(){
-        return this.Out;
+    public void setDispatcher(FileCount dispatcher) {
+        Dispatcher = dispatcher;
     }
 
-    public void setError(int Error){
-        this.Error = Error;
+    public FileCount getDBPost() {
+        return DBPost;
     }
 
-    public int getError(){
-        return this.Error;
+    public void setDBPost(FileCount DBPost) {
+        this.DBPost = DBPost;
     }
 }

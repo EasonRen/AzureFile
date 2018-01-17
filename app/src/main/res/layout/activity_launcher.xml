@@ -18,7 +18,7 @@
         android:textSize="16sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="eason"
+        android:text="Vetrax"
         android:layout_marginBottom="10dp"/>
 
 </RelativeLayout>

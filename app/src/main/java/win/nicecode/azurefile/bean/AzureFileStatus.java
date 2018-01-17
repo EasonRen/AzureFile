@@ -1,19 +1,15 @@
 package win.nicecode.azurefile.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by eason on 2018/1/5.
  */
 
-public class AzureFileStatus {
+public class AzureFileStatus implements Serializable {
     private String LastCheckDate;
-
     private QueueMessageCount QueueMessageCount;
-
-    private AzureFileCount Carrie;
-
-    private AzureFileCount Dispatcher;
-
-    private AzureFileCount DBPost;
+    private AzureFileCount AzureFileCount;
 
     public void setLastCheckDate(String LastCheckDate){
         this.LastCheckDate = LastCheckDate;
@@ -31,27 +27,11 @@ public class AzureFileStatus {
         return this.QueueMessageCount;
     }
 
-    public AzureFileCount getCarrie() {
-        return Carrie;
+    public win.nicecode.azurefile.bean.AzureFileCount getAzureFileCount() {
+        return AzureFileCount;
     }
 
-    public void setCarrie(AzureFileCount carrie) {
-        Carrie = carrie;
-    }
-
-    public AzureFileCount getDispatcher() {
-        return Dispatcher;
-    }
-
-    public void setDispatcher(AzureFileCount dispatcher) {
-        Dispatcher = dispatcher;
-    }
-
-    public AzureFileCount getDBPost() {
-        return DBPost;
-    }
-
-    public void setDBPost(AzureFileCount DBPost) {
-        this.DBPost = DBPost;
+    public void setAzureFileCount(win.nicecode.azurefile.bean.AzureFileCount azureFileCount) {
+        AzureFileCount = azureFileCount;
     }
 }
