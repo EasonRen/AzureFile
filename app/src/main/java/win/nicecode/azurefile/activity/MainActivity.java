@@ -49,7 +49,11 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.dbpostErrorCount)
     TextView dbpostErrorCountView;
 
+    @BindView(R.id.lastCheckTime)
+    TextView lastCheckTimeView;
+
     public static final String ACTION_UPDATE_AZURE = "action.updateAzure";
+    public static final String DATETIME_FORMAT_STRING = "yyyy-MM-dd HH:mm:ss.fff";
     public UpdateAzureFileStatusBroadcastReceiver updateAzureFileStatusBroadcastReceiver;
 
     @Override
@@ -73,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindData() {
-
         RetrofitClient.getInstance()
                 .createApi(ApiServiceInterface.class)
                 .getAzureFileStatus()
@@ -107,6 +110,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindViewData(AzureFileStatus azureFileStatus) {
+        if (azureFileStatus == null)
+            return;
+
         binQueueCountView.setText(String.valueOf(azureFileStatus.getQueueMessageCount().getBin()));
         algorithmQueueView.setText(String.valueOf(azureFileStatus.getQueueMessageCount().getAlgorithm()));
         dbpostQueueView.setText(String.valueOf(azureFileStatus.getQueueMessageCount().getDBPost()));
@@ -122,5 +128,7 @@ public class MainActivity extends AppCompatActivity {
         dbpostInCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDBPost().getIn()));
         dbpostOutCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDBPost().getOut()));
         dbpostErrorCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDBPost().getError()));
+
+        lastCheckTimeView.setText(azureFileStatus.getLastCheckDate());
     }
 }
