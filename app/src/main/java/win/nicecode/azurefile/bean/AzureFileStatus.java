@@ -1,5 +1,7 @@
 package win.nicecode.azurefile.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -7,31 +9,34 @@ import java.io.Serializable;
  */
 
 public class AzureFileStatus implements Serializable {
-    private String LastCheckDate;
-    private QueueMessageCount QueueMessageCount;
-    private AzureFileCount AzureFileCount;
+    @SerializedName("LastCheckDate")
+    private String lastCheckDate;
+    @SerializedName("QueueMessageCount")
+    private QueueMessageCount queueMessageCount;
+    @SerializedName("AzureFileCount")
+    private AzureFileCount azureFileCount;
 
     public void setLastCheckDate(String LastCheckDate){
-        this.LastCheckDate = LastCheckDate;
+        this.lastCheckDate = LastCheckDate;
     }
 
     public String getLastCheckDate(){
-        return this.LastCheckDate;
+        return this.lastCheckDate;
     }
 
     public void setQueueMessageCount(QueueMessageCount QueueMessageCount){
-        this.QueueMessageCount = QueueMessageCount;
+        this.queueMessageCount = QueueMessageCount;
     }
 
     public QueueMessageCount getQueueMessageCount(){
-        return this.QueueMessageCount;
+        return this.queueMessageCount;
     }
 
     public win.nicecode.azurefile.bean.AzureFileCount getAzureFileCount() {
-        return AzureFileCount;
+        return azureFileCount;
     }
 
     public void setAzureFileCount(win.nicecode.azurefile.bean.AzureFileCount azureFileCount) {
-        AzureFileCount = azureFileCount;
+        azureFileCount = azureFileCount;
     }
 }
