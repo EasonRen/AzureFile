@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(updateAzureFileStatusBroadcastReceiver, filter);
 
         bindData();
-        initServie();
+        initService();
     }
 
     @OnClick(R.id.button)
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void initServie() {
+    private void initService() {
         Intent i = new Intent(this, UpdateAzureFileStatusService.class);
         i.setAction("win.nicecode.azurefile.service.UpdateAzureFileStatusService");
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
