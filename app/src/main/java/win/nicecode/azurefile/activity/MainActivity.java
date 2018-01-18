@@ -8,6 +8,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -53,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     TextView lastCheckTimeView;
 
     public static final String ACTION_UPDATE_AZURE = "action.updateAzure";
-    public static final String DATETIME_FORMAT_STRING = "yyyy-MM-dd HH:mm:ss.fff";
+    public static final String DATETIME_FORMAT_STRING = "yyyy-MM-dd HH:mm:ss.SSS";
     public UpdateAzureFileStatusBroadcastReceiver updateAzureFileStatusBroadcastReceiver;
 
     @Override
@@ -101,14 +106,6 @@ public class MainActivity extends AppCompatActivity {
         this.startService(i);
     }
 
-    private class UpdateAzureFileStatusBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            AzureFileStatus azureFileStatus = (AzureFileStatus) intent.getSerializableExtra("filestatus");
-            bindViewData(azureFileStatus);
-        }
-    }
-
     private void bindViewData(AzureFileStatus azureFileStatus) {
         if (azureFileStatus == null)
             return;
@@ -129,6 +126,27 @@ public class MainActivity extends AppCompatActivity {
         dbpostOutCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDBPost().getOut()));
         dbpostErrorCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDBPost().getError()));
 
-        lastCheckTimeView.setText(azureFileStatus.getLastCheckDate());
+        Date date = null;
+        SimpleDateFormat utcDateFormat = new SimpleDateFormat(DATETIME_FORMAT_STRING);
+        SimpleDateFormat localDateFormat = new SimpleDateFormat(DATETIME_FORMAT_STRING);
+        utcDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        localDateFormat.setTimeZone(TimeZone.getDefault());
+        try {
+            date = utcDateFormat.parse(azureFileStatus.getLastCheckDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (date!=null){
+            lastCheckTimeView.setText(localDateFormat.format(date.getTime()));
+        }
+    }
+
+    private class UpdateAzureFileStatusBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            AzureFileStatus azureFileStatus = (AzureFileStatus) intent.getSerializableExtra("filestatus");
+            bindViewData(azureFileStatus);
+        }
     }
 }
