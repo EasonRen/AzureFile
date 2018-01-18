@@ -142,6 +142,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        unregisterReceiver(updateAzureFileStatusBroadcastReceiver);
+    }
+
     private class UpdateAzureFileStatusBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
