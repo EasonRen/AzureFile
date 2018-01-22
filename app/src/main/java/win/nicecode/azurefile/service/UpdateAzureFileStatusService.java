@@ -13,8 +13,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import win.nicecode.azurefile.activity.MainActivity;
 import win.nicecode.azurefile.bean.AzureFileStatus;
-import win.nicecode.azurefile.network.ApiServiceInterface;
-import win.nicecode.azurefile.network.RetrofitClient;
+import win.nicecode.azurefile.network.DataManager;
 import win.nicecode.azurefile.utils.AppConfig;
 
 public class UpdateAzureFileStatusService extends Service {
@@ -41,15 +40,12 @@ public class UpdateAzureFileStatusService extends Service {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                RetrofitClient.getInstance()
-                        .createApi(ApiServiceInterface.class)
-                        .getAzureFileStatus().enqueue(new Callback<AzureFileStatus>() {
+                DataManager.getInstance()
+                        .getAzureFileStatus()
+                        .enqueue(new Callback<AzureFileStatus>() {
                     @Override
                     public void onResponse(Call<AzureFileStatus> c, Response<AzureFileStatus> response) {
                         AzureFileStatus result = response.body();
-//                        intent.putExtra("bin", result.getQueueMessageCount().getBin());
-//                        intent.putExtra("algorithm", result.getQueueMessageCount().getAlgorithm());
-//                        intent.putExtra("dbpost", result.getQueueMessageCount().getDBPost());
                         intent.putExtra("filestatus", result);
                         sendBroadcast(intent);
                     }
