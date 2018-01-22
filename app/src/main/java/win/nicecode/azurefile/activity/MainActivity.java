@@ -135,13 +135,13 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (date!=null){
+        if (date != null) {
             lastCheckTimeView.setText(localDateFormat.format(date.getTime()));
         }
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(updateAzureFileStatusBroadcastReceiver);
     }

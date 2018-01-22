@@ -17,7 +17,7 @@ public class DataManager {
 
     public static DataManager getInstance() {
         if (dataManager == null) {
-            synchronized (RetrofitClient.class) {
+            synchronized (DataManager.class) {
                 dataManager = new DataManager();
             }
         }
