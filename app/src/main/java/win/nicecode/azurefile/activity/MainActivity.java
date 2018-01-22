@@ -21,11 +21,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import win.nicecode.azurefile.R;
 import win.nicecode.azurefile.bean.AzureFileStatus;
-import win.nicecode.azurefile.network.ApiServiceInterface;
-import win.nicecode.azurefile.network.RetrofitClient;
+import win.nicecode.azurefile.network.DataManager;
 import win.nicecode.azurefile.service.UpdateAzureFileStatusService;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String ACTION_UPDATE_AZURE = "action.updateAzure";
+    public static final String DATETIME_FORMAT_STRING = "yyyy-MM-dd HH:mm:ss.SSS";
+    public UpdateAzureFileStatusBroadcastReceiver updateAzureFileStatusBroadcastReceiver;
+
     @BindView(R.id.txtBinQueueCount)
     TextView binQueueCountView;
     @BindView(R.id.txtAlgorithmQueueCount)
@@ -57,10 +60,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.lastCheckTime)
     TextView lastCheckTimeView;
 
-    public static final String ACTION_UPDATE_AZURE = "action.updateAzure";
-    public static final String DATETIME_FORMAT_STRING = "yyyy-MM-dd HH:mm:ss.SSS";
-    public UpdateAzureFileStatusBroadcastReceiver updateAzureFileStatusBroadcastReceiver;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,8 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindData() {
-        RetrofitClient.getInstance()
-                .createApi(ApiServiceInterface.class)
+        DataManager.getInstance()
                 .getAzureFileStatus()
                 .enqueue(new Callback<AzureFileStatus>() {
                     @Override

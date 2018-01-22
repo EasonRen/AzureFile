@@ -11,6 +11,7 @@ import win.nicecode.azurefile.utils.AppConfig;
 
 public class RetrofitClient {
     private Retrofit retrofit;
+    private ApiServiceInterface apiService;
     private static RetrofitClient mInstance;
 
     public static RetrofitClient getInstance() {
@@ -27,9 +28,15 @@ public class RetrofitClient {
                 .baseUrl(AppConfig.BASE_WEB_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+        apiService = retrofit.create(ApiServiceInterface.class);
     }
 
-    public <T> T createApi(Class<T> apiService){
-        return retrofit.create(apiService);
+    public ApiServiceInterface getApiService() {
+        return apiService;
     }
+
+    //    public <T> T createApi(Class<T> apiService){
+//        return retrofit.create(apiService);
+//    }
 }
