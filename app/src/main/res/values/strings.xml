@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AzureFileMonitor</string>
+    <string name="app_name">AzureMonitor</string>
     <string name="in_text">IN</string>
     <string name="out_text">OUT</string>
     <string name="error_text">ERROR</string>

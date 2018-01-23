@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -88,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<AzureFileStatus> c, Response<AzureFileStatus> response) {
                         AzureFileStatus result = response.body();
                         bindViewData(result);
+
+                        Toast toast = Toast.makeText(MainActivity.this, "refresh success", 2*1000);
+                        toast.show();
                     }
 
                     @Override
