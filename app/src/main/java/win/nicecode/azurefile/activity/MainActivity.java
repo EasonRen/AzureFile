@@ -28,7 +28,7 @@ import win.nicecode.azurefile.service.UpdateAzureFileStatusService;
 public class MainActivity extends AppCompatActivity {
     public static final String ACTION_UPDATE_AZURE = "action.updateAzure";
     public static final String DATETIME_FORMAT_STRING = "yyyy-MM-dd HH:mm:ss.SSS";
-    public UpdateAzureFileStatusBroadcastReceiver updateAzureFileStatusBroadcastReceiver;
+    public UpdateAzureFileStatusReceiver updateAzureFileStatusBroadcastReceiver;
 
     @BindView(R.id.txtBinQueueCount)
     TextView binQueueCountView;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_UPDATE_AZURE);
-        updateAzureFileStatusBroadcastReceiver = new UpdateAzureFileStatusBroadcastReceiver();
+        updateAzureFileStatusBroadcastReceiver = new UpdateAzureFileStatusReceiver();
         registerReceiver(updateAzureFileStatusBroadcastReceiver, filter);
 
         bindData();
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(updateAzureFileStatusBroadcastReceiver);
     }
 
-    private class UpdateAzureFileStatusBroadcastReceiver extends BroadcastReceiver {
+    private class UpdateAzureFileStatusReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             AzureFileStatus azureFileStatus = (AzureFileStatus) intent.getSerializableExtra("filestatus");
