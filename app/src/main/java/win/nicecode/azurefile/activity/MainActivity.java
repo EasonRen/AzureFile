@@ -96,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<AzureFileStatus> c, Throwable t) {
-                        t.printStackTrace();
+                        Toast toast = Toast.makeText(MainActivity.this, "Bad request", 2*1000);
+                        toast.show();
                     }
                 });
     }
@@ -112,21 +113,21 @@ public class MainActivity extends AppCompatActivity {
         if (azureFileStatus == null)
             return;
 
-        binQueueCountView.setText(String.valueOf(azureFileStatus.getQueueMessageCount().getBin()));
-        algorithmQueueView.setText(String.valueOf(azureFileStatus.getQueueMessageCount().getAlgorithm()));
-        dbpostQueueView.setText(String.valueOf(azureFileStatus.getQueueMessageCount().getDBPost()));
+        binQueueCountView.setText(String.valueOf(azureFileStatus.getBinQueueMessage()));
+        algorithmQueueView.setText(String.valueOf(azureFileStatus.getAlgorithmQueueMessage()));
+        dbpostQueueView.setText(String.valueOf(azureFileStatus.getdBpostQueueMessage()));
 
-        carrierInCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getCarrie().getIn()));
-        carrierOutCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getCarrie().getOut()));
-        carrierErrorCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getCarrie().getError()));
+        carrierInCountView.setText(String.valueOf(azureFileStatus.getCarrierInFile()));
+        carrierOutCountView.setText(String.valueOf(azureFileStatus.getCarrierOutFile()));
+        carrierErrorCountView.setText(String.valueOf(azureFileStatus.getCarrierErrorFile()));
 
-        dispatcherInCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDispatcher().getIn()));
-        dispatcherOutCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDispatcher().getOut()));
-        dispatcherErrorCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDispatcher().getError()));
+        dispatcherInCountView.setText(String.valueOf(azureFileStatus.getDispatcherInFile()));
+        dispatcherOutCountView.setText(String.valueOf(azureFileStatus.getDispatcherOutFile()));
+        dispatcherErrorCountView.setText(String.valueOf(azureFileStatus.getDispatcherErrorFile()));
 
-        dbpostInCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDBPost().getIn()));
-        dbpostOutCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDBPost().getOut()));
-        dbpostErrorCountView.setText(String.valueOf(azureFileStatus.getAzureFileCount().getDBPost().getError()));
+        dbpostInCountView.setText(String.valueOf(azureFileStatus.getDBPostInFile()));
+        dbpostOutCountView.setText(String.valueOf(azureFileStatus.getDBPostOutFile()));
+        dbpostErrorCountView.setText(String.valueOf(azureFileStatus.getDBPostErrorFile()));
 
         Date date = null;
         SimpleDateFormat utcDateFormat = new SimpleDateFormat(DATETIME_FORMAT_STRING);
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         utcDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         localDateFormat.setTimeZone(TimeZone.getDefault());
         try {
-            date = utcDateFormat.parse(azureFileStatus.getLastCheckDate());
+            date = utcDateFormat.parse(azureFileStatus.getUpdateDate());
         } catch (ParseException e) {
             e.printStackTrace();
         }

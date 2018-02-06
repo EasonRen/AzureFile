@@ -9,34 +9,154 @@ import java.io.Serializable;
  */
 
 public class AzureFileStatus implements Serializable {
+    @SerializedName("ID")
+    private int id;
+    @SerializedName("BinQueueMessage")
+    private int binQueueMessage;
+    @SerializedName("AlgorithmQueueMessage")
+    private int algorithmQueueMessage;
+    @SerializedName("DBpostQueueMessage")
+    private int dBpostQueueMessage;
+    @SerializedName("CarrierInFile")
+    private int carrierInFile;
+    @SerializedName("CarrierOutFile")
+    private int carrierOutFile;
+    @SerializedName("CarrierErrorFile")
+    private int carrierErrorFile;
+    @SerializedName("DispatcherInFile")
+    private int dispatcherInFile;
+    @SerializedName("DispatcherOutFile")
+    private int dispatcherOutFile;
+    @SerializedName("DispatcherErrorFile")
+    private int dispatcherErrorFile;
+    @SerializedName("DBPostInFile")
+    private int dBPostInFile;
+    @SerializedName("DBPostOutFile")
+    private int dBPostOutFile;
+    @SerializedName("DBPostErrorFile")
+    private int dBPostErrorFile;
     @SerializedName("LastCheckDate")
-    private String lastCheckDate;
-    @SerializedName("QueueMessageCount")
-    private QueueMessageCount queueMessageCount;
-    @SerializedName("AzureFileCount")
-    private AzureFileCount azureFileCount;
+    private String updateDate;
+    @SerializedName("CreateDate")
+    private String createDate;
 
-    public void setLastCheckDate(String LastCheckDate){
-        this.lastCheckDate = LastCheckDate;
+    public int getId() {
+        return id;
     }
 
-    public String getLastCheckDate(){
-        return this.lastCheckDate;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setQueueMessageCount(QueueMessageCount QueueMessageCount){
-        this.queueMessageCount = QueueMessageCount;
+    public int getBinQueueMessage() {
+        return binQueueMessage;
     }
 
-    public QueueMessageCount getQueueMessageCount(){
-        return this.queueMessageCount;
+    public void setBinQueueMessage(int binQueueMessage) {
+        this.binQueueMessage = binQueueMessage;
     }
 
-    public win.nicecode.azurefile.bean.AzureFileCount getAzureFileCount() {
-        return azureFileCount;
+    public int getAlgorithmQueueMessage() {
+        return algorithmQueueMessage;
     }
 
-    public void setAzureFileCount(win.nicecode.azurefile.bean.AzureFileCount azureFileCount) {
-        azureFileCount = azureFileCount;
+    public void setAlgorithmQueueMessage(int algorithmQueueMessage) {
+        this.algorithmQueueMessage = algorithmQueueMessage;
+    }
+
+    public int getdBpostQueueMessage() {
+        return dBpostQueueMessage;
+    }
+
+    public void setdBpostQueueMessage(int dBpostQueueMessage) {
+        this.dBpostQueueMessage = dBpostQueueMessage;
+    }
+
+    public int getCarrierInFile() {
+        return carrierInFile;
+    }
+
+    public void setCarrierInFile(int carrierInFile) {
+        this.carrierInFile = carrierInFile;
+    }
+
+    public int getCarrierOutFile() {
+        return carrierOutFile;
+    }
+
+    public void setCarrierOutFile(int carrierOutFile) {
+        this.carrierOutFile = carrierOutFile;
+    }
+
+    public int getCarrierErrorFile() {
+        return carrierErrorFile;
+    }
+
+    public void setCarrierErrorFile(int carrierErrorFile) {
+        this.carrierErrorFile = carrierErrorFile;
+    }
+
+    public int getDispatcherInFile() {
+        return dispatcherInFile;
+    }
+
+    public void setDispatcherInFile(int dispatcherInFile) {
+        this.dispatcherInFile = dispatcherInFile;
+    }
+
+    public int getDispatcherOutFile() {
+        return dispatcherOutFile;
+    }
+
+    public void setDispatcherOutFile(int dispatcherOutFile) {
+        this.dispatcherOutFile = dispatcherOutFile;
+    }
+
+    public int getDispatcherErrorFile() {
+        return dispatcherErrorFile;
+    }
+
+    public void setDispatcherErrorFile(int dispatcherErrorFile) {
+        this.dispatcherErrorFile = dispatcherErrorFile;
+    }
+
+    public int getDBPostInFile() {
+        return dBPostInFile;
+    }
+
+    public void setDBPostInFile(int dBPostInFile) {
+        this.dBPostInFile = dBPostInFile;
+    }
+
+    public int getDBPostOutFile() {
+        return dBPostOutFile;
+    }
+
+    public void setdBPostOutFile(int dBPostOutFile) {
+        this.dBPostOutFile = dBPostOutFile;
+    }
+
+    public int getDBPostErrorFile() {
+        return dBPostErrorFile;
+    }
+
+    public void setDBPostErrorFile(int dBPostErrorFile) {
+        this.dBPostErrorFile = dBPostErrorFile;
+    }
+
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 }
