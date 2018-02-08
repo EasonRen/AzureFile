@@ -35,8 +35,8 @@ public class AzureFileStatus implements Serializable {
     private int dBPostOutFile;
     @SerializedName("DBPostErrorFile")
     private int dBPostErrorFile;
-    @SerializedName("LastCheckDate")
-    private String updateDate;
+    @SerializedName("UpdateDate")
+    private String lastCheckDate;
     @SerializedName("CreateDate")
     private String createDate;
 
@@ -144,12 +144,12 @@ public class AzureFileStatus implements Serializable {
         this.dBPostErrorFile = dBPostErrorFile;
     }
 
-    public String getUpdateDate() {
-        return updateDate;
+    public String getLastCheckDate() {
+        return lastCheckDate;
     }
 
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate;
+    public void setLastCheckDate(String lastCheckDate) {
+        this.lastCheckDate = lastCheckDate;
     }
 
     public String getCreateDate() {

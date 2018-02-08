@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         utcDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         localDateFormat.setTimeZone(TimeZone.getDefault());
         try {
-            date = utcDateFormat.parse(azureFileStatus.getUpdateDate());
+            date = utcDateFormat.parse(azureFileStatus.getLastCheckDate());
         } catch (ParseException e) {
             e.printStackTrace();
         }
